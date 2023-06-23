@@ -1,0 +1,20 @@
+{{template "base" .}}
+{{define "content"}}
+<header>
+    <h1>Update Route</h1>
+</header>
+
+<form action="/schedule/update" method="POST">  
+    <div> <!--Company-->
+        <label>Schedule ID</label>
+        <input type="text" name="id">
+    </div>
+    <div>
+    <input type="submit" value="Submit Schedule">
+    </div>
+</form>
+<hr>
+<footer>
+    
+</footer>
+{{end}}

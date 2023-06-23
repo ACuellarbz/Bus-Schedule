@@ -1,0 +1,37 @@
+{{template "base" .}}
+{{define "content"}}
+<div>
+    <div>
+        <h1>Schedule For Busses For Today</h1>
+    </div>
+    <div>
+            <table>
+                <tr>
+                    <th>Company</th>
+                    <th>Beginning</th>
+                    <th>Destination</th>
+                    <th>           </th>
+                </tr>
+                <tr>
+                    <td>{{.Schedule.CompanyID}}</td>
+                    <td>{{.Schedule.BeginningID}}</td>
+                    <td>{{.Schedule.DestinationID}}</td>
+                </tr>
+            </table>
+    </div>
+</div>
+{{end}}
+{{define "css"}}
+<style>
+    table, td, th {
+    border: 1px solid;
+  }
+table{
+    border-collapse: collapse;
+}
+h1{
+    color: blue;
+}
+
+</style>
+{{ end }}

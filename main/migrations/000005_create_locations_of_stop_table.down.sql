@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS locations_of_stop CASCADE;

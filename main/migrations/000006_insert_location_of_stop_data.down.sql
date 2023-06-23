@@ -1,0 +1,1 @@
+DELETE FROM locations_of_stop;

@@ -1,0 +1,17 @@
+{{template "base" .}}
+{{define "content"}}
+<form action="/login" method="POST" novalidate>
+  <input type="hidden" name="csrf_token" value="{{.CSRFTOKEN}}"/>  
+  <div>
+    <label>Email:</label>
+    <input type="email" name="email" />
+  </div>
+  <div>
+    <label>Password:</label>
+    <input type="password" name="password" />
+  </div>
+  <div>
+    <input type="submit" value="Login" />
+  </div>
+</form>
+{{ end }}

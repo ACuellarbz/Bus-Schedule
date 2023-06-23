@@ -1,0 +1,33 @@
+{{template "base" .}}
+{{define "content"}}
+<header>
+    <h1>Add New Routes</h1>
+</header>
+
+<form action="/schedule/create" method="POST">
+    <input type="hidden" name="csrf_token" value="{{.CSRFTOKEN}}"/>  
+    <div> <!--Company-->
+        <label>Schedule ID</label>
+        <input type="text" name="id">
+    </div>
+    <div> <!--Company-->
+        <label>Company Location ID</label>
+        <input type="text" name="company_id">
+    </div>
+    <div><!--Beginning Location-->
+        <label>Beginning Location ID</label>
+        <input type="text" name="begin_id">
+    </div>
+    <div><!--Destination-->
+        <label>Destination Location ID</label>
+        <input type="text" name="destination_id">
+    </div>
+    <div>
+    <input type="submit" value="Submit Schedule">
+    </div>
+</form>
+<hr>
+<footer>
+    
+</footer>
+{{end}}
