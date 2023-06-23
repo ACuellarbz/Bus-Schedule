@@ -10,7 +10,8 @@ import (
 	"github.com/justinas/nosurf"
 )
 
-// Spoofing Function
+// Spoofing http method in forum to different one.HTML can only handle POST AND GET. In the html there is "_method" which alerts this
+//function and it replaces the method with the "name"value
 func MethodOverride(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {

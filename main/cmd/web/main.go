@@ -1,6 +1,6 @@
 // main file
 
-package main
+package main //the package name dictates which .go file share function/variables
 
 import (
 	"context"
@@ -16,7 +16,7 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
-type application struct {
+type application struct { 
 	errorLog        *log.Logger
 	infoLog         *log.Logger
 	user_info       models.UserModel
@@ -30,12 +30,12 @@ type application struct {
 }
 
 func main() {
-	addr := flag.String("port", ":4000", "HTTP network address")
-	dsn := flag.String("dsn", os.Getenv("COMPUTE_DB_DSN"), "PostgreSQL DSN (Data Source Name)")
+	addr := flag.String("port", ":4000", "HTTP network address") //Provides general information on where site will be located
+	dsn := flag.String("dsn", os.Getenv("COMPUTE_DB_DSN"), "PostgreSQL DSN (Data Source Name)") //Connects to PSQL Database. Must create shortcut and replace "COMPUTE_DB_DSN"
 	flag.Parse()
 
-	db, err := openDB(*dsn)
-	if err != nil {
+	db, err := openDB(*dsn) //Opens Databse
+	if err != nil { //Enters if the Database is not entered
 		log.Println(err)
 		return
 	}
@@ -43,10 +43,10 @@ func main() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 	// setup a new session manager
-	sessionManager := scs.New()
+	sessionManager := scs.New() // Creates a Session
 	sessionManager.Lifetime = 1 * time.Hour
 	sessionManager.Cookie.Persist = true
-	sessionManager.Cookie.Secure = false                  //false if the cookies aren't secure
+	sessionManager.Cookie.Secure = false                  //false if the cookies aren't secure; true when https is added
 	sessionManager.Cookie.SameSite = http.SameSiteLaxMode //Same site
 
 	//share data across handlers
@@ -63,7 +63,7 @@ func main() {
 		sessionsManager: sessionManager,
 	}
 
-	defer db.Close()
+	defer db.Close() // Database closes at the end
 	log.Println("Database connection pool established")
 
 	srv := &http.Server{
@@ -71,7 +71,7 @@ func main() {
 		Handler: app.routes(),
 	}
 	log.Printf("Starting server on port %s", *addr)
-	err = srv.ListenAndServe()
+	err = srv.ListenAndServe() //Handles
 	log.Fatal(err)
 }
 
