@@ -1,1 +1,0 @@
-DELETE FROM bus_companies;

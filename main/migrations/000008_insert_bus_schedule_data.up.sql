@@ -1,10 +1,6 @@
-INSERT INTO bus_schedule(id, company_id, beginning_location_id, destination_location_id, bus_departure_time, bus_arrival_time)
+INSERT INTO bus_schedule(id, route_name, total_cost, number_of_tickets_available)
 VALUES
-(1, 08, 001, 002, '08:00:00', '08:55:00'),
-(2, 07, 002, 003, '09:00:00', '10:00:00'),
-(3, 06, 003, 004, '10:00:00', '11:30:00'),
-(4, 05, 004, 005, '05:00:00', '06:00:00'),
-(5, 04, 005, 006, '03:00:00', '04:10:00'),
-(6, 03, 006, 007, '01:00:00', '02:15:00'),
-(7, 02, 008, 001, '02:00:00', '04:00:00'),
-(8, 01, 001, 002, '03:30:00', '05:00:00');
+(1, 001, 50, 25),
+(2, 002, 75, 25);
+
+
