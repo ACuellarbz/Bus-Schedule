@@ -29,7 +29,7 @@ func (app *application) tickets(w http.ResponseWriter, r *http.Request) {
 // Read Implementation
 func (app *application) scheduleShow(w http.ResponseWriter, r *http.Request) {
 	log.Println("Entered Schedule")
-	schedule, err := app.bus_schedule.Get()
+	schedule, err := app.route.Get()
 	if err != nil {
 		log.Println(err)
 		return
@@ -49,6 +49,7 @@ func (app *application) scheduleFormShow(w http.ResponseWriter, r *http.Request)
 }
 
 // POST METHOD implementation of Create
+//NEEDS TO BE FIXED 
 func (app *application) scheduleFormSubmit(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -60,7 +61,7 @@ func (app *application) scheduleFormSubmit(w http.ResponseWriter, r *http.Reques
 	destin_location := r.PostForm.Get("destination_id")
 	log.Printf("%s %s %s\n", company, begin_location, destin_location)
 
-	_, err = app.bus_schedule.Insert(id, company, begin_location, destin_location)
+	_, err = app.route.Insert(id, company, begin_location, destin_location)
 	log.Println(err)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -157,7 +158,7 @@ func (app *application) updateSchedule(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "bad request", http.StatusBadRequest)
 	}
 	id := r.PostForm.Get("id")
-	info, schedule_id, err := app.bus_schedule.SearchRecord(id)
+	info, schedule_id, err := app.route.SearchRecord(id)
 
 	if err != nil {
 		log.Println(err.Error())
@@ -208,7 +209,7 @@ func (app *application) updateRecords(w http.ResponseWriter, r *http.Request) {
 	company := r.PostForm.Get("company_id")
 	begin_location := r.PostForm.Get("begin_id")
 	destin_location := r.PostForm.Get("destination_id")
-	err = app.bus_schedule.Update(id, company, begin_location, destin_location)
+	err = app.route.Update(id, company, begin_location, destin_location)
 	log.Println(err)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -227,7 +228,7 @@ func (app *application) deleteRoute(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "bad request", http.StatusBadRequest)
 	}
 	id := r.PostForm.Get("id")
-	err = app.bus_schedule.Delete(id)
+	err = app.route.Delete(id)
 
 	log.Println(err)
 	if err != nil {

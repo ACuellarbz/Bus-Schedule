@@ -4,8 +4,8 @@ package main
 import "github.com/ACuellarbz/3162/internal/models"
 
 type templateData struct {
-	Schedule     *models.BusSchedule
+	Schedule     *models.Route
 	Flash        string
-	ScheduleByte []*models.BusSchedule //used to hold byte data I guess
-	CSRFTOKEN    string                // Added for authentication
+	ScheduleByte []*models.Route //used to hold byte data I guess
+	CSRFTOKEN    string          // Added for authentication
 }
