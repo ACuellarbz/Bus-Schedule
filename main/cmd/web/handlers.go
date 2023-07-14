@@ -61,6 +61,56 @@ func (app *application) scheduleFormSubmit(w http.ResponseWriter, r *http.Reques
 	trip_type := r.PostForm.Get("type_trip")
 	departure := r.PostForm.Get("departure_time")
 	arrivals := r.PostForm.Get("arrival")
+
+	//Make Adjustments
+	if trip_type != "Regular" || trip_type != "Express"{
+		log.Println("Not Correct Type")
+	}
+
+	//SWITCH FOR begin_location
+	switch {
+	case begin_location == "Belize":
+		begin_location = "01"
+	case begin_location == "Belmopan":
+		begin_location = "02"
+	case begin_location == "Cayo":
+		begin_location = "03"
+	case begin_location == "Punta Gorda":
+		begin_location = "04"
+	case begin_location == "Dangriga":
+		begin_location = "05"
+	case begin_location == "Stann Creek":
+		begin_location = "06"
+	case begin_location == "Corozal":
+		begin_location = "07"
+	case begin_location == "Orange Walk":
+		begin_location = "08"
+	default:
+		log.Println("SWITCH FAILED")
+	}
+
+	//SWITCH FOR destin_location
+	switch {
+	case destin_location == "Belize":
+		destin_location = "01"
+	case destin_location == "Belmopan":
+		destin_location = "02"
+	case destin_location == "Cayo":
+		destin_location = "03"
+	case destin_location == "Punta Gorda":
+		destin_location = "04"
+	case destin_location == "Dangriga":
+		destin_location = "05"
+	case destin_location == "Stann Creek":
+		destin_location = "06"
+	case destin_location == "Corozal":
+		destin_location = "07"
+	case destin_location == "Orange Walk":
+		destin_location = "08"
+	default:
+		log.Println("SWITCH FAILED")
+	}
+	
 	log.Printf("%s %s %s\n", begin_location, destin_location)
 
 	_, err = app.route.Insert(id, begin_location, destin_location, trip_type, departure, arrivals)
