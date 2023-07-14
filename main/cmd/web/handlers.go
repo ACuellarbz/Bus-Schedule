@@ -56,12 +56,14 @@ func (app *application) scheduleFormSubmit(w http.ResponseWriter, r *http.Reques
 		http.Error(w, "bad request", http.StatusBadRequest)
 	}
 	id := r.PostForm.Get("id")
-	company := r.PostForm.Get("company_id")
 	begin_location := r.PostForm.Get("begin_id")
 	destin_location := r.PostForm.Get("destination_id")
-	log.Printf("%s %s %s\n", company, begin_location, destin_location)
+	trip_type := r.PostForm.Get("type_trip")
+	departure := r.PostForm.Get("departure_time")
+	arrivals := r.PostForm.Get("arrival")
+	log.Printf("%s %s %s\n", begin_location, destin_location)
 
-	_, err = app.route.Insert(id, company, begin_location, destin_location)
+	_, err = app.route.Insert(id, begin_location, destin_location, trip_type, departure, arrivals)
 	log.Println(err)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -209,7 +211,10 @@ func (app *application) updateRecords(w http.ResponseWriter, r *http.Request) {
 	company := r.PostForm.Get("company_id")
 	begin_location := r.PostForm.Get("begin_id")
 	destin_location := r.PostForm.Get("destination_id")
-	err = app.route.Update(id, company, begin_location, destin_location)
+	trip_type := r.PostForm.Get("type_trip")
+	departure := r.PostForm.Get("departure_time")
+	arrivals := r.PostForm.Get("arrival")
+	err = app.route.Update(id, company, begin_location, destin_location, trip_type, departure, arrivals)
 	log.Println(err)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
