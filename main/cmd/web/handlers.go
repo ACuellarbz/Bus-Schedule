@@ -49,7 +49,7 @@ func (app *application) scheduleFormShow(w http.ResponseWriter, r *http.Request)
 }
 
 // POST METHOD implementation of Create
-//NEEDS TO BE FIXED 
+// NEEDS TO BE FIXED
 func (app *application) scheduleFormSubmit(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -63,7 +63,7 @@ func (app *application) scheduleFormSubmit(w http.ResponseWriter, r *http.Reques
 	arrivals := r.PostForm.Get("arrival")
 
 	//Make Adjustments
-	if trip_type != "Regular" || trip_type != "Express"{
+	if trip_type != "Regular" && trip_type != "Express" {
 		log.Println("Not Correct Type")
 	}
 
@@ -110,8 +110,8 @@ func (app *application) scheduleFormSubmit(w http.ResponseWriter, r *http.Reques
 	default:
 		log.Println("SWITCH FAILED")
 	}
-	
-	log.Printf("%s %s %s\n", begin_location, destin_location)
+
+	log.Printf("%s %s %s %s %s\n", begin_location, destin_location, trip_type, departure, arrivals)
 
 	_, err = app.route.Insert(id, begin_location, destin_location, trip_type, departure, arrivals)
 	log.Println(err)
@@ -258,13 +258,12 @@ func (app *application) updateRecords(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "bad request", http.StatusBadRequest)
 	}
 	id := r.PostForm.Get("id")
-	company := r.PostForm.Get("company_id")
 	begin_location := r.PostForm.Get("begin_id")
 	destin_location := r.PostForm.Get("destination_id")
 	trip_type := r.PostForm.Get("type_trip")
 	departure := r.PostForm.Get("departure_time")
 	arrivals := r.PostForm.Get("arrival")
-	err = app.route.Update(id, company, begin_location, destin_location, trip_type, departure, arrivals)
+	err = app.route.Update(id, begin_location, destin_location, trip_type, departure, arrivals)
 	log.Println(err)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

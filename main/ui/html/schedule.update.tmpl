@@ -20,10 +20,6 @@
         <label>Schedule ID</label>
         <input type="text" name="id" value = "{{.ScheduleID}}">
     </div>
-    <div> <!--Company-->
-        <label>Company Location ID</label>
-        <input type="text" name="company_id" value = "{{.CompanyID}}">
-    </div>
     <div><!--Beginning Location-->
         <label>Beginning Location ID</label>
         <input type="text" name="begin_id" value = "{{.BeginningID}}">
@@ -31,6 +27,18 @@
     <div><!--Destination-->
         <label>Destination Location ID</label>
         <input type="text" name="destination_id" value = "{{.DestinationID}}">
+    </div>
+    <div> <!--Type-->
+        <label>Type of trip</label>
+        <input type="text" name="type_trip" value = "{{.TypeTrip}}">
+    </div>
+    <div> <!--Departure Time-->
+        <label>Departure Time</label>
+        <input type="text" name="departure_time" value = "{{.DepartTime}}">
+    </div>
+    <div> <!--Arrival-->
+        <label>Arrival</label>
+        <input type="text" name="arrival" value = "{{.ArrivalTime}}">
     </div>
     <div>
     <input type="submit" value="Submit Schedule">
