@@ -11,12 +11,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/ACuellarbz/3162/internal/models"
+	"github.com/ACuellarbz/Bus-Schedule/internal/models"
 	"github.com/alexedwards/scs/v2"
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
-type application struct { 
+type application struct {
 	errorLog        *log.Logger
 	infoLog         *log.Logger
 	user_info       models.UserModel
@@ -30,12 +30,12 @@ type application struct {
 }
 
 func main() {
-	addr := flag.String("port", ":4000", "HTTP network address") //Provides general information on where site will be located
+	addr := flag.String("port", ":4000", "HTTP network address")                                //Provides general information on where site will be located
 	dsn := flag.String("dsn", os.Getenv("COMPUTE_DB_DSN"), "PostgreSQL DSN (Data Source Name)") //Connects to PSQL Database. Must create shortcut and replace "COMPUTE_DB_DSN"
 	flag.Parse()
 
 	db, err := openDB(*dsn) //Opens Databse
-	if err != nil { //Enters if the Database is not entered
+	if err != nil {         //Enters if the Database is not entered
 		log.Println(err)
 		return
 	}

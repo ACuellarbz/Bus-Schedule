@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/ACuellarbz/3162/internal/models"
+	"github.com/ACuellarbz/Bus-Schedule/internal/models"
 	"github.com/justinas/nosurf"
 )
 
@@ -28,7 +28,6 @@ func (app *application) tickets(w http.ResponseWriter, r *http.Request) {
 
 // Read Implementation
 func (app *application) scheduleShow(w http.ResponseWriter, r *http.Request) {
-	log.Println("Entered Schedule")
 	schedule, err := app.route.Get()
 	if err != nil {
 		log.Println(err)
@@ -77,6 +76,7 @@ func (app *application) scheduleFormSubmit(w http.ResponseWriter, r *http.Reques
 		begin_location = "03"
 	case begin_location == "Punta Gorda":
 		begin_location = "04"
+		log.Println("Inside Punta Gorda")
 	case begin_location == "Dangriga":
 		begin_location = "05"
 	case begin_location == "Stann Creek":
@@ -101,6 +101,7 @@ func (app *application) scheduleFormSubmit(w http.ResponseWriter, r *http.Reques
 		destin_location = "04"
 	case destin_location == "Dangriga":
 		destin_location = "05"
+		log.Println("Inside Dangriga")
 	case destin_location == "Stann Creek":
 		destin_location = "06"
 	case destin_location == "Corozal":
@@ -200,13 +201,19 @@ func (app *application) logoutSubmit(w http.ResponseWriter, r *http.Request) {
 
 // Displays Update Request Page
 func (app *application) updateScheduleShow(w http.ResponseWriter, r *http.Request) {
-	RenderTemplate(w, "schedule.update.request.tmpl", nil)
+	data := &templateData{
+		CSRFTOKEN: nosurf.Token(r), //added for authentication
+	}
+	RenderTemplate(w, "schedule.update.request.tmpl", data)
+	log.Println("In updateScheduleShow")
+
 }
 
 // POST METHOD Implementation for Update
 func (app *application) updateSchedule(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
+		log.Println("In updateScheduleShow")
 		http.Error(w, "bad request", http.StatusBadRequest)
 	}
 	id := r.PostForm.Get("id")
@@ -228,6 +235,7 @@ func (app *application) updateSchedule(w http.ResponseWriter, r *http.Request) {
 
 	data := &templateData{
 		ScheduleByte: info,
+		CSRFTOKEN:    nosurf.Token(r), //added for authentication
 	}
 
 	ts, err := template.ParseFiles("./ui/html/schedule.update.tmpl")

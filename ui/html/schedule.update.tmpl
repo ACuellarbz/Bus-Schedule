@@ -13,12 +13,13 @@
 <header>
     <h1>Add New Routes</h1>
 </header>
-{{range .ScheduleByte}}
 <form action="/schedule/update" method="POST">
+    <input type="hidden" name="csrf_token" value="{{.CSRFTOKEN}}"/>  
     <input type="hidden" name="_method" value="PUT">
+    {{range .ScheduleByte}}
     <div> <!--Company-->
         <label>Schedule ID</label>
-        <input type="text" name="id" value = "{{.ScheduleID}}">
+        <input type="text" name="id" value = "{{.RouteID}}">
     </div>
     <div><!--Beginning Location-->
         <label>Beginning Location ID</label>

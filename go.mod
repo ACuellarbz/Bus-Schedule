@@ -1,4 +1,4 @@
-module github.com/ACuellarbz/3162
+module github.com/ACuellarbz/Bus-Schedule
 
 go 1.19
 

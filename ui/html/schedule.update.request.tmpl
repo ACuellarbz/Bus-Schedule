@@ -5,6 +5,7 @@
 </header>
 
 <form action="/schedule/update" method="POST">  
+    <input type="hidden" name="csrf_token" value="{{.CSRFTOKEN}}"/>  
     <div> <!--Company-->
         <label>Schedule ID</label>
         <input type="text" name="id">

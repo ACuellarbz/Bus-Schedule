@@ -15,7 +15,7 @@ type Route struct {
 	DestinationID int64
 	TypeTrip      string
 	DepartTime    string
-	ArrivalTIme   string
+	ArrivalTime   string
 }
 
 type RouteModel struct {
@@ -29,7 +29,7 @@ func (m *RouteModel) Insert(route_id string, beginning string, destination strin
 
 	statement :=
 		`
-			INSERT INTO routes(id, beginning_location_id, destination_location_id, type_of_trip, bus_departutre_time, bus_arrival_time)
+			INSERT INTO routes(id, beginning_location_id, destination_location_id, type_of_trip, bus_departure_time, bus_arrival_time)
 			VALUES($1, $2, $3, $4, $5, $6)
 			RETURNING ID
 		`
@@ -72,7 +72,7 @@ func (m *RouteModel) Get() (*Route, error) {
 	//timeout for DB connection
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	err := m.DB.QueryRowContext(ctx, statement).Scan(&b.RouteID, &b.BeginningID, &b.DestinationID, &b.TypeTrip, &b.DepartTime, &b.ArrivalTIme)
+	err := m.DB.QueryRowContext(ctx, statement).Scan(&b.RouteID, &b.BeginningID, &b.DestinationID, &b.TypeTrip, &b.DepartTime, &b.ArrivalTime)
 	if err != nil {
 		return nil, err
 	}
@@ -82,6 +82,7 @@ func (m *RouteModel) Get() (*Route, error) {
 // Credit: Interpretation of Hipolito's Read Function
 func (m *RouteModel) SearchRecord(route_id string) ([]*Route, string, error) {
 	//SQL statement
+	log.Println("Entered Search Record")
 	statement :=
 		`
 			SELECT id, beginning_location_id, destination_location_id, type_of_trip, bus_departure_time, bus_arrival_time
@@ -101,7 +102,7 @@ func (m *RouteModel) SearchRecord(route_id string) ([]*Route, string, error) {
 	data.Next()
 
 	route := &Route{}
-	err = data.Scan(&route.RouteID, &route.BeginningID, &route.DestinationID, &route.TypeTrip, &route.DepartTime, &route.ArrivalTIme)
+	err = data.Scan(&route.RouteID, &route.BeginningID, &route.DestinationID, &route.TypeTrip, &route.DepartTime, &route.ArrivalTime)
 
 	routes = append(routes, route)
 	if err != nil {
@@ -123,7 +124,7 @@ func (m *RouteModel) Update(route_id string, beginning string, destination strin
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	//sets the timeout for the DB connection, passes the statements and associates the arguements with the place holders in the SQL ($1, $2 etc)
-	_, err := m.DB.ExecContext(ctx, statement, route_id, beginning, destination, type_trip, depart_time, arrival_time)
+	_, err := m.DB.ExecContext(ctx, statement, route_id, beginning, destination, type_trip, depart_time, arrival_time, route_id)
 
 	if err != nil {
 		fmt.Println(err)

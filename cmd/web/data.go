@@ -1,7 +1,7 @@
 // Filename: cmd/web/data.go
 package main
 
-import "github.com/ACuellarbz/3162/internal/models"
+import "github.com/ACuellarbz/Bus-Schedule/internal/models"
 
 type templateData struct {
 	Schedule     *models.Route
