@@ -1,7 +1,27 @@
-version: "3.8"
+version: "3.1"
+
 services:
-  web:
-  api:
-    build:
   db:
-    
+    image: postgres
+    networks:
+      new:
+        aliases:
+          - database
+    environment:
+      POSTGRES_DB: buscompanion
+      POSTGRES_USER: buscompanion
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432"
+  migrate:
+    image: migrate/migrate
+    networks:
+      - new
+    volumes:
+      - .:/migrations
+    command: ["-path", "/migrations", "-database", "postgres://buscompanion:password@database:5432/buscompanion?sslmode=disable", "up", "3"]
+    links:
+      - db
+
+networks:
+    new:
