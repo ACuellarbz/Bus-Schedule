@@ -1,6 +1,24 @@
 version: "3.1"
 
 services:
+  db:
+    image: postgres:latest
+    container_name: db_postgres
+    environment:
+      - PG_USER=${DB_USER}  
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - DATABASE_HOST=${DB_HOST} 
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+    networks:
+      - fullstack
+
   app:
     container_name: full_app
     build: .
@@ -15,35 +33,20 @@ services:
     networks:
         - fullstack
 
-  db:
-    image: postgres:latest
-    container_name: db_postgres
-    environment:
-      - POSTGRES_USER=${DB_USER}  
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
-      - DATABASE_HOST=${DB_HOST} 
-    ports:
-      - "5432:5432"
-    volumes:
-      - database_postgres:/var/lib/postgresql/data
+  migrate:
+    image: migrate/migrate
     networks:
       - fullstack
-
-
-#  migrate:
-#   image: migrate/migrate
-#    networks:
-#     - new
-#    volumes:
-#      - .:/migrations
-#    command: ["-path", "/migrations", "-database", "postgres://buscompanion:password@database:5432/buscompanion?sslmode=disable", "up", "3"]
-#    links:
-#      - db
+    volumes:
+      - .:/migrations/migrations
+    entrypoint: migrate
+    command: -path /migrations -database ${POSTGRES_URL} -verbose up
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   api:
-  database_postgres:
 networks:
     fullstack:
       driver: bridge
