@@ -1,27 +1,50 @@
 version: "3.1"
 
 services:
-  db:
-    image: postgres
-    networks:
-      new:
-        aliases:
-          - database
-    environment:
-      POSTGRES_DB: buscompanion
-      POSTGRES_USER: buscompanion
-      POSTGRES_PASSWORD: password
-    ports:
-      - "5432"
-  migrate:
-    image: migrate/migrate
-    networks:
-      - new
+  app:
+    container_name: full_app
+    build: .
+    ports: 
+      - 4000:4000
+    restart: on-failure
     volumes:
-      - .:/migrations
-    command: ["-path", "/migrations", "-database", "postgres://buscompanion:password@database:5432/buscompanion?sslmode=disable", "up", "3"]
-    links:
-      - db
+        - api:/usr/src/app/
+    depends_on:
+        - db
+        #- migrate      
+    networks:
+        - fullstack
 
+  db:
+    image: postgres:latest
+    container_name: db_postgres
+    environment:
+      - POSTGRES_USER=${DB_USER}  
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - DATABASE_HOST=${DB_HOST} 
+    ports:
+      - "5432:5432"
+    volumes:
+      - database_postgres:/var/lib/postgresql/data
+    networks:
+      - fullstack
+
+
+#  migrate:
+#   image: migrate/migrate
+#    networks:
+#     - new
+#    volumes:
+#      - .:/migrations
+#    command: ["-path", "/migrations", "-database", "postgres://buscompanion:password@database:5432/buscompanion?sslmode=disable", "up", "3"]
+#    links:
+#      - db
+
+volumes:
+  api:
+  database_postgres:
 networks:
-    new:
+    fullstack:
+      driver: bridge
+

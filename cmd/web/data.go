@@ -2,7 +2,6 @@
 package main
 
 import "github.com/ACuellarbz/Bus-Schedule/internal/models"
-import "github.com/ACuellarbz/Bus-Schedule"
 
 type templateData struct {
 	Schedule     *models.Route
